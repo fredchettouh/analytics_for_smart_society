@@ -1,11 +1,12 @@
 #system files
-.DS_Store
+
+*.DS_Store
+*Icon?
 *checkpoint.ipynb
 *.ipynb_checkpoints
-Icon?
 
-#notes and report
-/notes
-
-#Dependencies	
+#dependencies
 /smart_society
+
+#notes
+/notes/submit
