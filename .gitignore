@@ -4,9 +4,12 @@
 *Icon?
 *checkpoint.ipynb
 *.ipynb_checkpoints
+.idea
 
 #dependencies
 /smart_society
 
 #notes
 /notes/submit
+
+code/*.zip
