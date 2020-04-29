@@ -4,7 +4,9 @@
 *Icon?
 *checkpoint.ipynb
 *.ipynb_checkpoints
-.idea
+.ideals
+*idea
+
 
 #dependencies
 /smart_society
