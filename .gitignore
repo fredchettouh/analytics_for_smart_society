@@ -6,6 +6,7 @@
 *.ipynb_checkpoints
 .ideals
 *idea
+/code_asg_two/__pychace__/*
 
 
 #dependencies
