@@ -6,13 +6,17 @@
 *.ipynb_checkpoints
 .ideals
 *idea
-/code_asg_two/__pychace__/*
+*__pycache__
 
 
 #dependencies
 /smart_society
 
 #notes
-/notes/submit
+/notes/*asg
+/notes/*
 
 code/*.zip
+
+#scratch
+*Untitled.ipynb
