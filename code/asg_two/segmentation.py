@@ -1,4 +1,7 @@
-def segmentation(data,window_size = 16):
+import numpy as np
+
+
+def segmentation(data, window_size=16):
 
     data['index_col'] = data.index
     counter=0
@@ -6,7 +9,7 @@ def segmentation(data,window_size = 16):
 
     for (start, end) in windows2(data["index_col"], window_size):
 
-        if(len(tr["index_col"][start:end]) == window_size):
+        if(len(data["index_col"][start:end]) == window_size):
             data['window_id'][start:end]=counter
             counter=counter+1
 

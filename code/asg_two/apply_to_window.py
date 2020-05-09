@@ -1,20 +1,28 @@
+from copy import deepcopy
 
-
-def apply_to_window(df, user_idx, window_idx, column_key,
-                    function, function_kwargs={}, id_name='id',
+def apply_to_window(df, window_idx, column_key,
+                    function, function_kwargs={},
                     window_name='window_id'):
     results = {}
-    for idx in range(user_idx):
-        for w in range(window_idx):
-            key = f'{idx}_{w}'
-            temp_data = df[(df[id_name] == idx) & (df[window_name] == w)][
-                column_key]
-            if temp_data.empty:
-                results[key] = None
-            else:
-                temp_results = function(temp_data, **function_kwargs)
-                results[key] = temp_results
+    for w in range(window_idx):
+        key = f'{w}'
+        temp_data = df[(df[window_name] == w)][
+            column_key]
+        if temp_data.empty:
+            results[key] = None
+        else:
+            temp_results = function(temp_data, **function_kwargs)
+            results[key] = temp_results
     return results
+
+def map_back_to_window(data, result_dic, new_col_name, column_key='window_id'):
+    print(column_key,new_col_name)
+    datacopy = deepcopy(data)
+    print(datacopy.head())
+    datacopy[new_col_name] = [result_dic.get(str(int(val))) for val in datacopy[column_key]]
+    return datacopy
+
+
 
 
 if __name__ == '__main__':
