@@ -3,7 +3,7 @@ from scipy import signal
 import numpy as np
 from scipy import stats
 from copy import deepcopy
-
+import pandas as pd
 
 def fourier_transform(data_window):
     n_vals = len(data_window)

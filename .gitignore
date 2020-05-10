@@ -22,3 +22,6 @@ code/*.zip
 *Untitled.ipynb
 code/asg_two/blog_post_ataspinar.ipynb
 data/asg_two/UCI HAR Dataset/
+
+#data
+/data*
