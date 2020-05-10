@@ -16,13 +16,17 @@ def apply_to_window(df, window_idx, column_key,
     return results
 
 def map_back_to_window(data, result_dic, new_col_name, column_key='window_id'):
-    print(column_key,new_col_name)
     datacopy = deepcopy(data)
-    print(datacopy.head())
     datacopy[new_col_name] = [result_dic.get(str(int(val))) for val in datacopy[column_key]]
     return datacopy
 
 
+def map_cols_to_window(result_dict, prefix, n_colums, existing_df):
+    copy_data = deepcopy(existing_df)
+    colnames = [f'{prefix}_{val}' for val in range(n_colums)]
+    new_df = pd.DataFrame(result_dict.values(), index=result_dict.keys(),
+                          columns=colnames).reset_index(drop=True)
+    return pd.concat([copy_data, new_df], axis=1)
 
 
 if __name__ == '__main__':
