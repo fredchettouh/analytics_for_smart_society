@@ -1,33 +1,48 @@
-def slidingwindowsegment(sequence, create_segment, compute_error, max_error,
-                         seq_range=None):
-    """
-    Return a list of line segments that approximate the sequence.
-    The list is computed using the sliding window technique.
-    Parameters
-    ----------
-    sequence : sequence to segment
-    create_segment : a function of two arguments (sequence, sequence range) that returns a line segment that approximates the sequence data in the specified range
-    compute_error: a function of two argments (sequence, segment) that returns the error from fitting the specified line segment to the sequence data
-    max_error: the maximum allowable line segment fitting error
-    """
-    if not seq_range:
-        seq_range = (0, len(sequence) - 1)
+from copy import deepcopy
 
-    start = seq_range[0]
-    end = start
-    result_segment = create_segment(sequence, (seq_range[0], seq_range[1]))
-    while end < seq_range[1]:
-        end += 1
-        test_segment = create_segment(sequence, (start, end))
-        error = compute_error(sequence, test_segment)
-        if error <= max_error:
-            result_segment = test_segment
+def apply_to_window(df, window_idx, column_key,
+                    function, function_kwargs={},
+                    window_name='window_id'):
+    results = {}
+    for w in range(window_idx):
+        key = f'{w}'
+        temp_data = df[(df[window_name] == w)][
+            column_key]
+        if temp_data.empty:
+            results[key] = None
         else:
-            break
+            temp_results = function(temp_data, **function_kwargs)
+            results[key] = temp_results
+    return results
 
-    if end == seq_range[1]:
-        return [result_segment]
-    else:
-        return [result_segment] + slidingwindowsegment(sequence, create_segment,
-                                                       compute_error, max_error,
-                                                       (end - 1, seq_range[1]))
+def map_back_to_window(data, result_dic, new_col_name, column_key='window_id'):
+    datacopy = deepcopy(data)
+    datacopy[new_col_name] = [result_dic.get(str(int(val))) for val in datacopy[column_key]]
+    return datacopy
+
+
+def map_cols_to_window(result_dict, prefix, n_colums, existing_df):
+    copy_data = deepcopy(existing_df)
+    colnames = [f'{prefix}_{val}' for val in range(n_colums)]
+    new_df = pd.DataFrame(result_dict.values(), index=result_dict.keys(),
+                          columns=colnames).reset_index(drop=True)
+    return pd.concat([copy_data, new_df], axis=1)
+
+
+if __name__ == '__main__':
+    # this is simply to show how this function is supposed to work
+
+    import pandas as pd
+    import os
+    import numpy as np
+    base_dir = os.getcwd()
+    data_dir = 'data/asg_two'
+    file = 'HAR_train.csv'
+    file_to_path = os.path.join(base_dir, data_dir, file)
+    data = pd.read_csv(os.path.join(file_to_path))
+    data['window_id'] = np.random.randint(0, 50, len(data))
+
+    def mean_f(data, shift):
+        return sum(data) / len(data) + shift
+
+    apply_to_window(data, 8, 50, 'acc_z', mean_f, function_kwargs={'shift': 5})
