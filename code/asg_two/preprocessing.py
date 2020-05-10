@@ -47,7 +47,7 @@ def get_spectral_energy(data):
     return data_copy
 
 
-def add_features(df):
+def add_features(df, COLNAMES_TRAIN = ['acc_z', 'acc_xy', 'gyro_x','gyro_y','gyro_z','label','id']):
     mode_results = apply_to_window(df, len(set(df['window_id'])), 'label', stats.mode)
     data = map_back_to_window(df, {key: int(mode_results[key][0][0])for key in mode_results}, 'freq_label')
 
@@ -81,7 +81,7 @@ def add_features(df):
 
 
 
-def add_features_test(df):
+def add_features_test(df, COLNAMES_TRAIN = ['acc_z', 'acc_xy', 'gyro_x','gyro_y','gyro_z','label','id']):
     #mode_results = apply_to_window(df, len(set(df['window_id'])), 'label', stats.mode)
     #data = map_back_to_window(df, {key: int(mode_results[key][0][0])for key in mode_results}, 'freq_label')
 
