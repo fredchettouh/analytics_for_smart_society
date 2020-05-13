@@ -1,0 +1,27 @@
+#system files
+
+*.DS_Store
+*Icon?
+*checkpoint.ipynb
+*.ipynb_checkpoints
+.ideals
+*idea
+*__pycache__
+
+
+#dependencies
+/smart_society
+
+#notes
+/notes/*asg
+/notes/*
+
+code/*.zip
+
+#scratch
+*Untitled.ipynb
+code/asg_two/blog_post_ataspinar.ipynb
+data/asg_two/UCI HAR Dataset/
+
+#data
+/data*
